@@ -1,0 +1,57 @@
+VelociQ8 Software License Agreement
+
+Copyright (c) 2026 VelociQ8. All rights reserved.
+
+This agreement is between VelociQ8 ("we", "us") and you, the person or organization that downloads, installs or uses the Software. By downloading, installing or using the Software you accept these terms. If you do not accept them, do not use the Software.
+
+1. Definitions
+
+"Software" means the VelociQ8 executables, libraries, documentation and images that we distribute, including the release archives published at github.com/dhaern/VelociQ8 and any updates to them.
+
+"Third-party components" means the open-source software included in the release archives, such as llama.cpp. Each one is listed, with its license, in the "licenses" folder of each archive.
+
+Model files, including model files in the Q8A64 format that we publish, are not part of the Software. Each model file keeps the license of the model it was converted from.
+
+2. License
+
+We grant you a worldwide, non-exclusive, non-transferable, royalty-free license to install and run unmodified copies of the Software, for personal or commercial purposes. You may run the Software on your own machines or on machines you control in order to provide services to others, for example an embeddings or chat API. You may publish benchmark results obtained with the Software.
+
+3. Restrictions
+
+Unless we give you prior written permission, you may not:
+
+a) distribute, sell, rent, lease, sublicense or otherwise make the Software available to third parties, including by hosting it for download or bundling it with other products, software or container images;
+b) modify the Software or create derivative works from it;
+c) decompile, disassemble or otherwise reverse engineer the Software, or attempt to derive its source code, algorithms or data formats, except to the extent that applicable law expressly permits it notwithstanding this restriction (including Articles 5(3) and 6 of Directive 2009/24/EC);
+d) use the Software, or any information obtained from studying it, to develop, train or offer a product or service that reads, writes or reimplements the Q8A64 format, or that otherwise competes with the Software;
+e) remove or alter any copyright notice, license text or trademark in the Software.
+
+4. Third-party components
+
+Third-party components are licensed to you under their own licenses, not under this agreement. Nothing in this agreement limits the rights those licenses give you over the third-party components themselves.
+
+5. Ownership
+
+The Software is licensed, not sold. We keep all rights, title and interest in the Software that this agreement does not expressly grant to you. This agreement gives you no right to use the VelociQ8 name or logo, except to state truthfully that you use the Software.
+
+6. Termination
+
+This license ends automatically if you breach any of its terms. When it ends, you must stop using the Software and delete every copy in your possession or control. Sections 3 to 9 survive termination.
+
+7. No warranty
+
+The Software is provided "as is", without warranty of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, accuracy and non-infringement. You use it at your own risk.
+
+8. Limitation of liability
+
+To the maximum extent permitted by applicable law, we are not liable for any direct, indirect, incidental, special or consequential damages, including loss of data, profits, revenue or business, arising from the use of or the inability to use the Software, even if we have been advised of the possibility of such damages. Nothing in this agreement excludes or limits liability that cannot be excluded or limited under applicable law, including liability for wilful misconduct or gross negligence.
+
+9. Governing law and jurisdiction
+
+This agreement is governed by the laws of Spain. The courts of Spain have jurisdiction over any dispute arising from it. If you are a consumer, this does not take away the protection of the mandatory rules of your country of residence or your right to bring proceedings there.
+
+If any provision of this agreement is found unenforceable, it applies to the maximum extent permitted and the remaining provisions stay in effect.
+
+10. Contact
+
+For licensing questions, including permission for uses that section 3 does not allow, write to andr.raxxor@gmail.com.
