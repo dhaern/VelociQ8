@@ -61,7 +61,7 @@ The server listens on port 8080 inside the container and runs as user 10001. The
 docker run --rm -p 127.0.0.1:8080:8080 \
   --mount type=bind,src=/path/to/models,dst=/models,readonly \
   ghcr.io/dhaern/velociq8:1.1 \
-  -m /models/embeddinggemma-300m-BF16.gguf --embedding -t 4 -b 2048 -ub 2048
+  -m /models/embeddinggemma-2-Q8A64.gguf --embedding -t 4 -b 2048 -ub 2048
 ```
 
 The container reports itself healthy once `/health` answers.

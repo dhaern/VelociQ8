@@ -88,21 +88,28 @@ Check the download against `SHA256SUMS` from the same release.
 
 There is also a Docker image for Linux on Arm and x86-64, `ghcr.io/dhaern/velociq8:1.1`, with an example setup for HTTPS. See [Docker](docs/usage.md#docker) and [HTTPS](docs/usage.md#https).
 
+## Models
+
+Ready-made Q8A64 files are on Hugging Face: see the [VelociQ8 profile](https://huggingface.co/VelociQ8) and the [embedding models](https://huggingface.co/collections/VelociQ8/embeddings-6ad81d5d6f476c0c66ccf753). Each model card gives the prompts, the license of the original model and how the file was checked. These files load only in VelociQ8. Any other model in BF16, F16 or F32 GGUF runs as it is, or can be converted with `llama-quantize`.
+
 ## Quick start
 
-Start an embeddings server from a BF16, F16 or F32 GGUF model:
+Download a release archive and a ready-made Q8A64 model from Hugging Face, then start an embeddings server:
 
 ```sh
 tar xf velociq8-1.1-linux-arm64.tar.gz
 cd velociq8-1.1-linux-arm64
-./llama-server -m embeddinggemma-300m-BF16.gguf --embedding -t 4 -b 2048 -ub 2048 --port 8080
+curl -LO https://huggingface.co/VelociQ8/embeddinggemma-2-Q8A64-GGUF/resolve/main/embeddinggemma-2-Q8A64.gguf
+./llama-server -m embeddinggemma-2-Q8A64.gguf --embedding -t 4 -b 2048 -ub 2048 --port 8080
 ```
 
 ```sh
 curl -s http://127.0.0.1:8080/v1/embeddings \
   -H 'Content-Type: application/json' \
-  -d '{"input": "VelociQ8 runs on the CPU."}'
+  -d '{"input": "task: search result | query: Does VelociQ8 run on the CPU?"}'
 ```
+
+Any BF16, F16 or F32 GGUF works too: VelociQ8 converts it while loading.
 
 An LLM runs the same way, with the OpenAI-compatible chat endpoint:
 
@@ -124,6 +131,7 @@ See [docs/usage.md](docs/usage.md) for pre-converted Q8A64 files, converting you
 - [Compatibility](docs/compatibility.md): CPUs, operating systems, validated models and known limitations.
 - [Benchmarks](docs/benchmarks.md): all measurements and how they were taken.
 - [Quality](docs/quality.md): accuracy against full precision, for embeddings and LLMs.
+- [Models](https://huggingface.co/VelociQ8): ready-made Q8A64 files on Hugging Face.
 - [Changelog](CHANGELOG.md).
 
 ## License
