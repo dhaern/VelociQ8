@@ -70,14 +70,14 @@ The [Llama app](https://github.com/ggml-org/Llama-Windows) uses a `llama.exe` it
 
 ## Docker
 
-The image `ghcr.io/dhaern/velociq8:1.2` runs `llama-server` from the release archives, on the CPU, for `linux/arm64` and `linux/amd64`. On Arm it contains the `linux-arm64-multi` build, so it picks the best kernels for the CPU at startup. On x86-64 it needs AVX2 and FMA.
+The image [`ghcr.io/dhaern/velociq8`](https://github.com/dhaern/VelociQ8/pkgs/container/velociq8) runs `llama-server` from the release archives, on the CPU, for `linux/arm64` and `linux/amd64`. On Arm it contains the `linux-arm64-multi` build, so it picks the best kernels for the CPU at startup. On x86-64 it needs AVX2 and FMA.
 
 The server listens on port 8080 inside the container and runs as user 10001. The image does not download models: mount a folder with your GGUF files on `/models`, readable by user 10001. Everything after the image name is passed to `llama-server`:
 
 ```sh
 docker run --rm -p 127.0.0.1:8080:8080 \
   --mount type=bind,src=/path/to/models,dst=/models,readonly \
-  ghcr.io/dhaern/velociq8:1.2 \
+  ghcr.io/dhaern/velociq8:latest \
   -m /models/embeddinggemma-2-Q8A64.gguf --embedding -t 4 -b 2048 -ub 2048
 ```
 
@@ -92,7 +92,7 @@ This `compose.yaml` puts Caddy in front of the Docker image. Caddy obtains and r
 ```yaml
 services:
   velociq8:
-    image: ghcr.io/dhaern/velociq8:1.2
+    image: ghcr.io/dhaern/velociq8:latest
     command: ["-m", "/models/${MODEL_FILE:?Set MODEL_FILE to the GGUF filename}", "-t", "${THREADS:-4}", "-c", "2048", "-ngl", "0"]
     environment:
       LLAMA_API_KEY: "${API_KEY:?Set API_KEY}"

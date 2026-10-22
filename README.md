@@ -89,7 +89,7 @@ The 1.0 and 1.1 archives have the same names with their version.
 
 Check the download against `SHA256SUMS` from the same release.
 
-There is also a Docker image for Linux on Arm and x86-64, `ghcr.io/dhaern/velociq8:1.2`, with an example setup for HTTPS. See [Docker](docs/usage.md#docker) and [HTTPS](docs/usage.md#https).
+There is also a Docker image for Linux on Arm and x86-64, [`ghcr.io/dhaern/velociq8`](https://github.com/dhaern/VelociQ8/pkgs/container/velociq8), with an example setup for HTTPS. See [Docker](docs/usage.md#docker) and [HTTPS](docs/usage.md#https).
 
 ## Models
 
