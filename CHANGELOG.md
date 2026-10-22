@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2 (2026-10)
+
+Based on llama.cpp b11738, the release that Ollama 0.40.8 uses.
+
+- Ollama support: archives for Ollama 0.40.8 on Linux (Arm and x86-64) and Windows replace the server Ollama runs on the CPU, so it loads Q8A64 files and converts BF16, F16 and F32 models while loading. Tested on Linux on Arm with the official Ollama; the Windows archive has not been run on Windows yet.
+- Q8A64 files of embedding models now carry their pooling type and context length in the file header, which Ollama needs to detect them. Older files still load in every version; the files on Hugging Face have been updated.
+- The archives include `llama`, the single command that the Llama app for Windows runs, and `llama-tts` for text-to-speech models.
+- Q8A64 output is the same as in 1.1, checked bit for bit on the control models.
+
 ## 1.1 (2026-10)
 
 Based on llama.cpp v0.7.0, like 1.0.

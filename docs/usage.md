@@ -1,6 +1,6 @@
 # Usage
 
-VelociQ8 ships the standard llama.cpp tools: `llama-server`, `llama-cli`, `llama-embedding` and `llama-bench`, and since 1.1 `llama-quantize`. Options, environment variables and the HTTP API are the ones documented by llama.cpp v0.7.0. This page covers only what VelociQ8 changes.
+VelociQ8 ships the standard llama.cpp tools: `llama-server`, `llama-cli`, `llama-embedding` and `llama-bench`, since 1.1 `llama-quantize`, and since 1.2 `llama` (the single command that the Llama app for Windows runs) and `llama-tts`. Options, environment variables and the HTTP API are the ones documented by the llama.cpp release each version is based on (b11738 for 1.2). This page covers only what VelociQ8 changes.
 
 ## Loading a model
 
@@ -51,16 +51,33 @@ The endpoints are `/v1/embeddings` (OpenAI-compatible) and `/health`. The releas
 
 Use the prompt prefixes your embedding model expects. EmbeddingGemma, for example, expects `task: search result | query: ` for queries and `title: none | text: ` for documents.
 
+## Ollama
+
+The `velociq8-1.2-ollama-0.40.8-*` archives replace the llama.cpp server that Ollama 0.40.8 runs on the CPU with the VelociQ8 one, so Ollama can load Q8A64 files and convert BF16, F16 and F32 models to Q8A64 while loading. Ollama itself is not modified, and the archive works only with that Ollama version.
+
+Stop Ollama and copy the contents of `lib/ollama/` from the archive over the `lib/ollama` folder of the installation: `/usr/local/lib/ollama` with the Linux install script, `%LOCALAPPDATA%\Programs\Ollama\lib\ollama` on Windows. Then import the model:
+
+```sh
+printf 'FROM ./embeddinggemma-2-Q8A64.gguf\n' > Modelfile
+ollama create embeddinggemma-2-q8a64 -f Modelfile
+```
+
+Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files published before 1.2 lack the two header fields Ollama needs to detect embedding models; the files on Hugging Face have been updated, and `llama-quantize` from 1.2 writes them. Reinstalling or updating Ollama restores its own server. The Windows archive has been checked but not yet run on Windows.
+
+## Llama app for Windows
+
+The [Llama app](https://github.com/ggml-org/Llama-Windows) uses a `llama.exe` it finds in `PATH` and leaves it alone. Add the folder of the VelociQ8 Windows archive to `PATH` before starting the app, and it will run VelociQ8 and load Q8A64 files. For embedding models, add `--embeddings` to the app's custom server arguments.
+
 ## Docker
 
-The image `ghcr.io/dhaern/velociq8:1.1` runs `llama-server` from the release archives, on the CPU, for `linux/arm64` and `linux/amd64`. On Arm it contains the `linux-arm64-multi` build, so it picks the best kernels for the CPU at startup. On x86-64 it needs AVX2 and FMA.
+The image `ghcr.io/dhaern/velociq8:1.2` runs `llama-server` from the release archives, on the CPU, for `linux/arm64` and `linux/amd64`. On Arm it contains the `linux-arm64-multi` build, so it picks the best kernels for the CPU at startup. On x86-64 it needs AVX2 and FMA.
 
 The server listens on port 8080 inside the container and runs as user 10001. The image does not download models: mount a folder with your GGUF files on `/models`, readable by user 10001. Everything after the image name is passed to `llama-server`:
 
 ```sh
 docker run --rm -p 127.0.0.1:8080:8080 \
   --mount type=bind,src=/path/to/models,dst=/models,readonly \
-  ghcr.io/dhaern/velociq8:1.1 \
+  ghcr.io/dhaern/velociq8:1.2 \
   -m /models/embeddinggemma-2-Q8A64.gguf --embedding -t 4 -b 2048 -ub 2048
 ```
 
@@ -75,7 +92,7 @@ This `compose.yaml` puts Caddy in front of the Docker image. Caddy obtains and r
 ```yaml
 services:
   velociq8:
-    image: ghcr.io/dhaern/velociq8:1.1
+    image: ghcr.io/dhaern/velociq8:1.2
     command: ["-m", "/models/${MODEL_FILE:?Set MODEL_FILE to the GGUF filename}", "-t", "${THREADS:-4}", "-c", "2048", "-ngl", "0"]
     environment:
       LLAMA_API_KEY: "${API_KEY:?Set API_KEY}"
