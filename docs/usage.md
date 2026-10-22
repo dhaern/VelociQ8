@@ -53,16 +53,33 @@ Use the prompt prefixes your embedding model expects. EmbeddingGemma, for exampl
 
 ## Ollama
 
-The `velociq8-1.2-ollama-0.40.8-*` archives replace the llama.cpp server that Ollama 0.40.8 runs on the CPU with the VelociQ8 one, so Ollama can load Q8A64 files and convert BF16, F16 and F32 models to Q8A64 while loading. Ollama itself is not modified, and the archive works only with that Ollama version.
+The `velociq8-1.2-ollama-0.40.8-*` archives are a portable Ollama 0.40.8 for the CPU: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading. It runs on the CPU only; for a GPU, keep using your normal Ollama.
 
-Stop Ollama and copy the contents of `lib/ollama/` from the archive over the `lib/ollama` folder of the installation: `/usr/local/lib/ollama` with the Linux install script, `%LOCALAPPDATA%\Programs\Ollama\lib\ollama` on Windows. Then import the model:
+On Linux:
+
+```sh
+tar xf velociq8-1.2-ollama-0.40.8-linux-arm64.tar.gz
+cd velociq8-1.2-ollama-0.40.8-linux-arm64
+./bin/ollama serve
+```
+
+On Windows, extract the zip and run, in PowerShell:
+
+```powershell
+cd velociq8-1.2-ollama-0.40.8-windows-x64
+.\ollama.exe serve
+```
+
+If another Ollama is running, it already uses port 11434. Start this one on another port by setting `OLLAMA_HOST` before `serve`, and set it too in the terminal you send commands from: `export OLLAMA_HOST=127.0.0.1:11435` on Linux, `$env:OLLAMA_HOST="127.0.0.1:11435"` in PowerShell. Both share the model folder (`~/.ollama/models`, or the one in `OLLAMA_MODELS`); models imported from Q8A64 files run only in this Ollama.
+
+From a second terminal, import a model and use it as usual:
 
 ```sh
 printf 'FROM ./embeddinggemma-2-Q8A64.gguf\n' > Modelfile
-ollama create embeddinggemma-2-q8a64 -f Modelfile
+./bin/ollama create embeddinggemma-2-q8a64 -f Modelfile
 ```
 
-Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files published before 1.2 lack the two header fields Ollama needs to detect embedding models; the files on Hugging Face have been updated, and `llama-quantize` from 1.2 writes them. Reinstalling or updating Ollama restores its own server. The Windows archive has been checked but not yet run on Windows.
+Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files of embedding models need the two header fields added in 1.2 (pooling type and context length) for Ollama to detect them; the files on Hugging Face have them, and `llama-quantize` from 1.2 writes them. Each archive contains the Ollama version in its name, and later VelociQ8 releases follow newer Ollama versions. The Windows archive has been checked but not yet run on Windows.
 
 ## Llama app for Windows
 

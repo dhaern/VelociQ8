@@ -18,7 +18,7 @@ The main target is embeddings on CPU servers. It also runs LLMs, including mixtu
 - Embedding models, dense LLMs and, since 1.1, mixture-of-experts LLMs. Hybrid architectures such as granite-4.0-h and LFM2.5 work too.
 - Kernels for Arm (dotprod) and x86-64 (AVX2 + FMA). The `linux-arm64-multi` archive picks the best build for the CPU at startup, and since 1.1 it uses the i8mm matrix instructions on CPUs that have them.
 - Less memory on Arm: VelociQ8 runs the weights straight from a Q8A64 file, while llama.cpp keeps a second, repacked copy of Q8_0 weights. With OLMoE-1B-7B the peak is 6.9 GiB against 13.6 GiB.
-- Works with Ollama 0.40.8 (Linux and Windows) and the Llama app for Windows, through archives that replace their CPU server.
+- Ollama: a portable Ollama 0.40.8 for the CPU with VelociQ8 inside, for Linux and Windows. The Llama app for Windows works with the Windows archive.
 - Portable binaries. The Linux archives need glibc 2.28 or newer (RHEL 8, Debian 10, Ubuntu 20.04 and later), and the Windows executables are static, with no DLLs.
 
 ## Results
