@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2 (2026-10)
+## 1.2 (2026-10-22)
 
 Based on llama.cpp b11738, the release that Ollama 0.40.8 uses.
 
@@ -9,7 +9,7 @@ Based on llama.cpp b11738, the release that Ollama 0.40.8 uses.
 - The archives include `llama`, the single command that the Llama app for Windows runs, and `llama-tts` for text-to-speech models.
 - Q8A64 output is the same as in 1.1, checked bit for bit on the control models.
 
-## 1.1 (2026-10)
+## 1.1 (2026-10-21)
 
 Based on llama.cpp v0.7.0, like 1.0.
 
@@ -20,7 +20,7 @@ Based on llama.cpp v0.7.0, like 1.0.
 - Newly checked models: granite-3.1-1b-a400m, OLMoE-1B-7B, LFM2.5-1.2B, Qwen3.5-0.8B and gemma-4-E2B.
 - Dense models give the same output as in 1.0, checked bit for bit on the control models.
 
-## 1.0 (2026-10)
+## 1.0 (2026-10-21)
 
 First public release, based on llama.cpp v0.7.0.
 
