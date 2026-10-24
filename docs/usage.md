@@ -61,7 +61,7 @@ The x86-64 archives (Linux and Windows) include the official Vulkan backend of O
 
 For NVIDIA GPUs there are also `-cuda` archives: the same content plus the official CUDA 13 backend of Ollama in `lib/ollama/cuda_v13/`. They need a Turing GPU or newer (GTX 16, RTX 20 and later) and a current NVIDIA driver, and are about 0.7-0.8 GB.
 
-On the GPU, VelociQ8 converts the layers that go there from Q8A64 to Q8_0 while loading, keeping the Q8A64 rotation, and runs them on the llama.cpp Q8_0 kernels. The rest stays on the CPU with the VelociQ8 kernels, so the same file works on both. `ollama ps` shows how the model is split. To keep a model on the CPU, set `OLLAMA_VULKAN=0` before `serve`. The GPU path has been tested with a software Vulkan driver, not yet on a physical GPU.
+On the GPU, VelociQ8 converts the layers that go there from Q8A64 to Q8_0 while loading, keeping the Q8A64 rotation, and runs them on the llama.cpp Q8_0 kernels. The rest stays on the CPU with the VelociQ8 kernels, so the same file works on both. `ollama ps` shows how the model is split. To keep a model on the CPU, set `OLLAMA_VULKAN=0` before `serve`. On Windows 11 with an AMD Radeon RX 6900 XT, through Vulkan, EmbeddingGemma 2 in Q8A64 gave the same nDCG@10 on BEIR SciFact and NFCorpus as the Q8_0 file of the Ollama library (within 0.002) and embedded documents 9-11 % slower. The `-cuda` archives have not been run on a GPU yet.
 
 ### Running it
 
@@ -89,7 +89,7 @@ printf 'FROM ./embeddinggemma-2-Q8A64.gguf\n' > Modelfile
 ./bin/ollama create embeddinggemma-2-q8a64 -f Modelfile
 ```
 
-Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files of embedding models need the two header fields added in 1.2 (pooling type and context length) for Ollama to detect them; the files on Hugging Face have them, and `llama-quantize` from 1.2 writes them. Each archive contains the Ollama version in its name, and later VelociQ8 releases follow newer Ollama versions. The Windows archives have been checked but not yet run on Windows.
+Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files of embedding models need the two header fields added in 1.2 (pooling type and context length) for Ollama to detect them; the files on Hugging Face have them, and `llama-quantize` from 1.2 writes them. Each archive contains the Ollama version in its name, and later VelociQ8 releases follow newer Ollama versions. The Windows archive without CUDA has been run on Windows 11.
 
 ## Llama app for Windows
 
