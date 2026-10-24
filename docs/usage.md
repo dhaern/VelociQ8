@@ -53,20 +53,30 @@ Use the prompt prefixes your embedding model expects. EmbeddingGemma, for exampl
 
 ## Ollama
 
-The `velociq8-1.2-ollama-0.40.8-*` archives are a portable Ollama 0.40.8 for the CPU: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading. It runs on the CPU only; for a GPU, keep using your normal Ollama.
+The `velociq8-1.3-ollama-0.40.9-*` archives are a portable Ollama 0.40.9: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading.
+
+### GPU
+
+The x86-64 archives (Linux and Windows) include the official Vulkan backend of Ollama in `lib/ollama/vulkan/`. Ollama uses the GPU on its own when it finds one; it only needs the normal GPU driver, which on Windows and on most Linux desktops already includes Vulkan. On a minimal Linux server, install the Vulkan loader (`libvulkan1` on Debian and Ubuntu) and the driver. On Windows the Vulkan backend also needs the Microsoft Visual C++ Redistributable; without it Ollama runs on the CPU.
+
+For NVIDIA GPUs there are also `-cuda` archives: the same content plus the official CUDA 13 backend of Ollama in `lib/ollama/cuda_v13/`. They need a Turing GPU or newer (GTX 16, RTX 20 and later) and a current NVIDIA driver, and are about 0.7-0.8 GB.
+
+On the GPU, VelociQ8 converts the layers that go there from Q8A64 to Q8_0 while loading, keeping the Q8A64 rotation, and runs them on the llama.cpp Q8_0 kernels. The rest stays on the CPU with the VelociQ8 kernels, so the same file works on both. `ollama ps` shows how the model is split. To keep a model on the CPU, set `OLLAMA_VULKAN=0` before `serve`. The GPU path has been tested with a software Vulkan driver, not yet on a physical GPU.
+
+### Running it
 
 On Linux:
 
 ```sh
-tar xf velociq8-1.2-ollama-0.40.8-linux-arm64.tar.gz
-cd velociq8-1.2-ollama-0.40.8-linux-arm64
+tar xf velociq8-1.3-ollama-0.40.9-linux-arm64.tar.gz
+cd velociq8-1.3-ollama-0.40.9-linux-arm64
 ./bin/ollama serve
 ```
 
 On Windows, extract the zip and run, in PowerShell:
 
 ```powershell
-cd velociq8-1.2-ollama-0.40.8-windows-x64
+cd velociq8-1.3-ollama-0.40.9-windows-x64
 .\ollama.exe serve
 ```
 
@@ -79,7 +89,7 @@ printf 'FROM ./embeddinggemma-2-Q8A64.gguf\n' > Modelfile
 ./bin/ollama create embeddinggemma-2-q8a64 -f Modelfile
 ```
 
-Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files of embedding models need the two header fields added in 1.2 (pooling type and context length) for Ollama to detect them; the files on Hugging Face have them, and `llama-quantize` from 1.2 writes them. Each archive contains the Ollama version in its name, and later VelociQ8 releases follow newer Ollama versions. The Windows archive has been checked but not yet run on Windows.
+Embedding models work with `/api/embed` and chat models with `/api/chat` and `/api/generate`. Q8A64 files of embedding models need the two header fields added in 1.2 (pooling type and context length) for Ollama to detect them; the files on Hugging Face have them, and `llama-quantize` from 1.2 writes them. Each archive contains the Ollama version in its name, and later VelociQ8 releases follow newer Ollama versions. The Windows archives have been checked but not yet run on Windows.
 
 ## Llama app for Windows
 

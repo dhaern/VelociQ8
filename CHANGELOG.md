@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3 (2026-10-24)
+
+Based on llama.cpp b11803, the release that Ollama 0.40.9 uses.
+
+- GPU support in the portable Ollama archives for x86-64 (Linux and Windows), through the official Vulkan backend of Ollama 0.40.9, on NVIDIA, AMD and Intel GPUs. Layers that go to the GPU are converted from Q8A64 to Q8_0 while loading, keeping the Q8A64 rotation, and run on the llama.cpp Q8_0 kernels; the rest stays on the CPU with the VelociQ8 kernels. The same Q8A64 file works on both. Tested with a software Vulkan driver; not yet run on a physical GPU.
+- New `-cuda` Ollama archives for NVIDIA GPUs (Turing or newer), with the official CUDA 13 backend of Ollama. Only on GitHub, because of their size.
+- LoRA adapters load on rotated weights, and a LoRA on the token embeddings of a model with a tied output now works instead of stopping the server.
+- Without a GPU, Q8A64 output is the same as in 1.2, checked bit for bit on the control models.
+
 ## 1.2 (2026-10-22)
 
 Based on llama.cpp b11738, the release that Ollama 0.40.8 uses.
