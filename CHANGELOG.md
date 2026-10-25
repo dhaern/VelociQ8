@@ -1,12 +1,21 @@
 # Changelog
 
+## 1.4 (2026-10-25)
+
+Based on llama.cpp b11845, the release that Ollama 0.40.11 uses.
+
+- Faster prompt processing on the GPU in the Ollama archives.
+- New x86-64 kernels for CPUs with AVX-VNNI or AVX-512 VNNI (Intel Alder Lake, Ice Lake and later, AMD Zen 4 and later), picked at startup. Other CPUs keep the AVX2 kernels.
+- The Ollama archives are now based on Ollama 0.40.11.
+- Q8A64 output is the same as in 1.3, checked bit for bit on the control models and on every x86-64 kernel.
+
 ## 1.3 (2026-10-24)
 
 Based on llama.cpp b11803, the release that Ollama 0.40.9 uses.
 
-- GPU support in the portable Ollama archives for x86-64 (Linux and Windows), through the official Vulkan backend of Ollama 0.40.9, on NVIDIA, AMD and Intel GPUs. Layers that go to the GPU are converted from Q8A64 to Q8_0 while loading, keeping the Q8A64 rotation, and run on the llama.cpp Q8_0 kernels; the rest stays on the CPU with the VelociQ8 kernels. The same Q8A64 file works on both. Run on Windows 11 with an AMD Radeon RX 6900 XT: with EmbeddingGemma 2, the same retrieval quality as the Q8_0 file of the Ollama library and about 10 % slower. The `-cuda` archives have not been run on a GPU yet.
+- GPU support in the portable Ollama archives for x86-64 (Linux and Windows), through the official Vulkan backend of Ollama 0.40.9, on NVIDIA, AMD and Intel GPUs. Layers that go to the GPU run on the llama.cpp GPU kernels; the rest stays on the CPU with the VelociQ8 kernels. The same Q8A64 file works on both. Run on Windows 11 with an AMD Radeon RX 6900 XT: with EmbeddingGemma 2, the same retrieval quality as the Q8_0 file of the Ollama library and about 10 % slower. The `-cuda` archives have not been run on a GPU yet.
 - New `-cuda` Ollama archives for NVIDIA GPUs (Turing or newer), with the official CUDA 13 backend of Ollama. Only on GitHub, because of their size.
-- LoRA adapters load on rotated weights, and a LoRA on the token embeddings of a model with a tied output now works instead of stopping the server.
+- LoRA adapters load on Q8A64 weights on the GPU, and a LoRA on the token embeddings of a model with a tied output now works instead of stopping the server.
 - Without a GPU, Q8A64 output is the same as in 1.2, checked bit for bit on the control models.
 
 ## 1.2 (2026-10-22)

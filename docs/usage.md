@@ -53,7 +53,7 @@ Use the prompt prefixes your embedding model expects. EmbeddingGemma, for exampl
 
 ## Ollama
 
-The `velociq8-1.3-ollama-0.40.9-*` archives are a portable Ollama 0.40.9: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading.
+The `velociq8-1.4-ollama-0.40.11-*` archives are a portable Ollama 0.40.11: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading.
 
 ### GPU
 
@@ -61,22 +61,22 @@ The x86-64 archives (Linux and Windows) include the official Vulkan backend of O
 
 For NVIDIA GPUs there are also `-cuda` archives: the same content plus the official CUDA 13 backend of Ollama in `lib/ollama/cuda_v13/`. They need a Turing GPU or newer (GTX 16, RTX 20 and later) and a current NVIDIA driver, and are about 0.7-0.8 GB.
 
-On the GPU, VelociQ8 converts the layers that go there from Q8A64 to Q8_0 while loading, keeping the Q8A64 rotation, and runs them on the llama.cpp Q8_0 kernels. The rest stays on the CPU with the VelociQ8 kernels, so the same file works on both. `ollama ps` shows how the model is split. To keep a model on the CPU, set `OLLAMA_VULKAN=0` before `serve`. On Windows 11 with an AMD Radeon RX 6900 XT, through Vulkan, EmbeddingGemma 2 in Q8A64 gave the same nDCG@10 on BEIR SciFact and NFCorpus as the Q8_0 file of the Ollama library (within 0.002) and embedded documents 9-11 % slower. The `-cuda` archives have not been run on a GPU yet.
+On the GPU, VelociQ8 prepares the layers that go there while loading and runs them on the llama.cpp GPU kernels. The rest stays on the CPU with the VelociQ8 kernels, so the same file works on both. `ollama ps` shows how the model is split. To keep a model on the CPU, set `OLLAMA_VULKAN=0` before `serve`. On Windows 11 with an AMD Radeon RX 6900 XT, through Vulkan, EmbeddingGemma 2 in Q8A64 gave the same nDCG@10 on BEIR SciFact and NFCorpus as the Q8_0 file of the Ollama library (within 0.002) and embedded documents 9-11 % slower. The `-cuda` archives have not been run on a GPU yet.
 
 ### Running it
 
 On Linux:
 
 ```sh
-tar xf velociq8-1.3-ollama-0.40.9-linux-arm64.tar.gz
-cd velociq8-1.3-ollama-0.40.9-linux-arm64
+tar xf velociq8-1.4-ollama-0.40.11-linux-arm64.tar.gz
+cd velociq8-1.4-ollama-0.40.11-linux-arm64
 ./bin/ollama serve
 ```
 
 On Windows, extract the zip and run, in PowerShell:
 
 ```powershell
-cd velociq8-1.3-ollama-0.40.9-windows-x64
+cd velociq8-1.4-ollama-0.40.11-windows-x64
 .\ollama.exe serve
 ```
 

@@ -16,9 +16,9 @@ The main target is embeddings on CPU servers. It also runs LLMs, including mixtu
 - Same tools, options and HTTP API as llama.cpp, including the OpenAI-compatible endpoints of `llama-server`. Clients that already talk to llama.cpp work without changes.
 - No conversion step. Point the tools at a BF16, F16 or F32 GGUF and the weights are converted to Q8A64 while the model loads. Pre-converted Q8A64 files load directly, and since 1.1 you can write your own with `llama-quantize`.
 - Embedding models, dense LLMs and, since 1.1, mixture-of-experts LLMs. Hybrid architectures such as granite-4.0-h and LFM2.5 work too.
-- Kernels for Arm (dotprod) and x86-64 (AVX2 + FMA). The `linux-arm64-multi` archive picks the best build for the CPU at startup, and since 1.1 it uses the i8mm matrix instructions on CPUs that have them.
+- Kernels for Arm (dotprod) and x86-64 (AVX2 + FMA, and since 1.4 AVX-VNNI and AVX-512 VNNI). The `linux-arm64-multi` archive picks the best build for the CPU at startup, and since 1.1 it uses the i8mm matrix instructions on CPUs that have them.
 - Less memory on Arm: VelociQ8 runs the weights straight from a Q8A64 file, while llama.cpp keeps a second, repacked copy of Q8_0 weights. With OLMoE-1B-7B the peak is 6.9 GiB against 13.6 GiB.
-- Ollama: a portable Ollama 0.40.9 with VelociQ8 inside, for Linux and Windows. On x86-64 it also runs on the GPU through Vulkan (NVIDIA, AMD and Intel), and there are `-cuda` archives for NVIDIA. The Llama app for Windows works with the Windows archive.
+- Ollama: a portable Ollama 0.40.11 with VelociQ8 inside, for Linux and Windows. On x86-64 it also runs on the GPU through Vulkan (NVIDIA, AMD and Intel), and there are `-cuda` archives for NVIDIA. The Llama app for Windows works with the Windows archive.
 - Portable binaries. The Linux archives need glibc 2.28 or newer (RHEL 8, Debian 10, Ubuntu 20.04 and later), and the Windows executables are static, with no DLLs.
 
 ## Results
@@ -74,16 +74,16 @@ The full tables, the other builds we compared against and how each number was me
 
 ## Download
 
-Each release is built on one llama.cpp release. VelociQ8 1.0 and 1.1 are based on llama.cpp v0.7.0, 1.2 on b11738 and 1.3 on b11803.
+Each release is built on one llama.cpp release. VelociQ8 1.0 and 1.1 are based on llama.cpp v0.7.0, 1.2 on b11738, 1.3 on b11803 and 1.4 on b11845.
 
 | File | For |
 |---|---|
-| `velociq8-1.3-linux-arm64.tar.gz` | Arm servers with dotprod: Ampere Altra, AWS Graviton2 and later, Neoverse N1 and later |
-| `velociq8-1.3-linux-arm64-multi.tar.gz` | Any 64-bit Arm CPU. It picks the best kernels for the CPU at startup, including i8mm |
-| `velociq8-1.3-linux-x64.tar.gz` | x86-64 with AVX2 and FMA (Intel Haswell, AMD Zen and later) |
-| `velociq8-1.3-windows-x64.zip` | Windows on the same x86-64 CPUs (tested on Windows 11) |
+| `velociq8-1.4-linux-arm64.tar.gz` | Arm servers with dotprod: Ampere Altra, AWS Graviton2 and later, Neoverse N1 and later |
+| `velociq8-1.4-linux-arm64-multi.tar.gz` | Any 64-bit Arm CPU. It picks the best kernels for the CPU at startup, including i8mm |
+| `velociq8-1.4-linux-x64.tar.gz` | x86-64 with AVX2 and FMA (Intel Haswell, AMD Zen and later) |
+| `velociq8-1.4-windows-x64.zip` | Windows on the same x86-64 CPUs (tested on Windows 11) |
 
-For Ollama 0.40.9 there are `velociq8-1.3-ollama-0.40.9-linux-arm64.tar.gz`, `-linux-x64.tar.gz` and `-windows-x64.zip`; the x86-64 ones also use the GPU through Vulkan. For NVIDIA GPUs there are `-linux-x64-cuda.tar.gz` and `-windows-x64-cuda.zip`, about 0.7-0.8 GB each. See [Ollama](docs/usage.md#ollama). The Llama app for Windows works with the Windows archive; see [Llama app for Windows](docs/usage.md#llama-app-for-windows).
+For Ollama 0.40.11 there are `velociq8-1.4-ollama-0.40.11-linux-arm64.tar.gz`, `-linux-x64.tar.gz` and `-windows-x64.zip`; the x86-64 ones also use the GPU through Vulkan. For NVIDIA GPUs there are `-linux-x64-cuda.tar.gz` and `-windows-x64-cuda.zip`, about 0.7-0.8 GB each. See [Ollama](docs/usage.md#ollama). The Llama app for Windows works with the Windows archive; see [Llama app for Windows](docs/usage.md#llama-app-for-windows).
 
 Older releases have the same names with their version.
 
@@ -100,8 +100,8 @@ Ready-made Q8A64 files are on Hugging Face: see the [VelociQ8 profile](https://h
 Download a release archive and a ready-made Q8A64 model from Hugging Face, then start an embeddings server:
 
 ```sh
-tar xf velociq8-1.3-linux-arm64.tar.gz
-cd velociq8-1.3-linux-arm64
+tar xf velociq8-1.4-linux-arm64.tar.gz
+cd velociq8-1.4-linux-arm64
 curl -LO https://huggingface.co/VelociQ8/embeddinggemma-2-Q8A64-GGUF/resolve/main/embeddinggemma-2-Q8A64.gguf
 ./llama-server -m embeddinggemma-2-Q8A64.gguf --embedding -t 4 -b 2048 -ub 2048 --port 8080
 ```
