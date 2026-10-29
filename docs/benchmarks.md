@@ -67,6 +67,18 @@ On Arm, llama.cpp repacks Q8_0 weights into a second copy, so it holds about twi
 
 <p align="center"><img alt="Benchmark card for mixture-of-experts models on Arm and x86-64" src="../assets/benchmark-moe.png" width="900"></p>
 
+### LFM3
+
+VelociQ8 1.5 against llama.cpp b11963, 4 threads, `llama-bench` with 3 repetitions per run and flash attention on, two interleaved rounds. Median of the six repetitions of each build. VelociQ8 loaded the published Q8A64 files and llama.cpp the Q8_0 files described in [quality.md](quality.md#lfm3). Tokens per second, higher is better.
+
+| Model | Prompt processing, 512 tokens: VelociQ8 / Q8_0 | Text generation, 128 tokens: VelociQ8 / Q8_0 |
+|---|---|---|
+| LFM3-1.7B | 168.9 / 103.2 | 17.8 / 18.6 |
+| LFM3-1.7B-Base | 168.3 / 103.1 | 18.5 / 18.5 |
+| LFM3-VL-2B | 166.3 / 104.1 | 18.5 / 18.9 |
+
+Prompt processing is 1.64 times faster than llama.cpp on LFM3-1.7B, 1.63 times on the base model and 1.60 times on LFM3-VL-2B. Text generation is level on the base model, and llama.cpp is 2 % faster on LFM3-VL-2B and 4 % on LFM3-1.7B. Two of VelociQ8's text-generation repetitions on LFM3-1.7B were disturbed (9.8 and 4.5 tok/s); without them its median is 18.2 tok/s.
+
 ## x86-64: AMD Ryzen 9 5950X
 
 Windows 11, 16 cores. Both builds come from the same llama.cpp v0.7.0 source and were compiled with the same toolchain and flags (static, x86-64-v3). The only difference is the VelociQ8 code. They ran in the order VelociQ8, llama.cpp, llama.cpp, VelociQ8, and the tables give the mean of the two runs of each.

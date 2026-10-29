@@ -93,7 +93,7 @@ There is also a Docker image for Linux on Arm and x86-64, [`ghcr.io/dhaern/veloc
 
 ## Models
 
-Ready-made Q8A64 files are on Hugging Face: see the [VelociQ8 profile](https://huggingface.co/VelociQ8) and the [embedding models](https://huggingface.co/collections/VelociQ8/embeddings-6ad81d5d6f476c0c66ccf753). Each model card gives the prompts, the license of the original model and how the file was checked. These files load only in VelociQ8. Any other model in BF16, F16 or F32 GGUF runs as it is, or can be converted with `llama-quantize`.
+Ready-made Q8A64 files are on Hugging Face: see the [VelociQ8 profile](https://huggingface.co/VelociQ8), the [embedding models](https://huggingface.co/collections/VelociQ8/embeddings-6ad81d5d6f476c0c66ccf753) and the [text models](https://huggingface.co/collections/VelociQ8/text-models-6ae3a448a70c7ba93ce2c594). Each model card gives the prompts, the license of the original model and how the file was checked. These files load only in VelociQ8. Any other model in BF16, F16 or F32 GGUF runs as it is, or can be converted with `llama-quantize`.
 
 ## Quick start
 

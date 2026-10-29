@@ -30,6 +30,8 @@ Q8A64 applies to the matrix weights of any model the underlying llama.cpp releas
 | LFM2.5-1.2B-Instruct | LLM (hybrid with convolution layers), accuracy only |
 | Qwen3.5-0.8B | LLM, accuracy only |
 | gemma-4-E2B-it | LLM, accuracy only |
+| LFM3-1.7B, LFM3-1.7B-Base | LLM (hybrid with convolution layers) (1.5) |
+| LFM3-VL-2B | LLM with image input (1.5) |
 
 Weights that Q8A64 does not cover keep their original type and run on the normal llama.cpp kernels. The model still works; that part is just not faster.
 

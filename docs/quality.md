@@ -56,3 +56,15 @@ Same method against the original BF16 model: 8 chunks of 512 tokens, 4 threads, 
 | gemma-4-E2B-it | 0.004768 | 0.008783 | 97.01 % / 97.50 % |
 
 On LFM2.5 the two are level. On Qwen3.5 VelociQ8 has 23 % less divergence, and on gemma-4 46 % less: there the largest single-token divergence was 0.107 for VelociQ8 and 4.583 for Q8_0.
+
+### LFM3
+
+Same method with 8 chunks of 512 tokens and 4 threads. The reference is the original BF16 model converted to F32, which loses nothing, run by llama.cpp b11963. VelociQ8 1.5 loaded the published Q8A64 files. The Q8_0 files are Liquid AI's own for LFM3-1.7B and LFM3-VL-2B, and made from the same BF16 with llama.cpp b11963 for the base model, which has no official GGUF. For LFM3-VL-2B the figures are for the language model on text; images were not measured.
+
+| Model | VelociQ8 1.5 (Q8A64) | llama.cpp b11963, Q8_0 | Same top token: VelociQ8 / Q8_0 |
+|---|---|---|---|
+| LFM3-1.7B | 0.001487 | 0.001703 | 98.14 % / 98.09 % |
+| LFM3-1.7B-Base | 0.000471 | 0.000546 | 99.07 % / 98.92 % |
+| LFM3-VL-2B | 0.002580 | 0.002686 | 97.01 % / 97.11 % |
+
+VelociQ8 has 13 % less divergence on LFM3-1.7B and 14 % less on the base model. On LFM3-VL-2B the two are level: the gap is 4 %, about the standard error `llama-perplexity` reports (0.000089). The standard errors of the divergence are 0.000074 and 0.000080 on LFM3-1.7B and 0.000013 and 0.000014 on the base model (VelociQ8, then Q8_0). The same-top-token rates differ by 0.05 points on LFM3-1.7B, 0.15 on the base model and 0.10 on LFM3-VL-2B, always under the standard error: 0.30 points on LFM3-1.7B, 0.21 to 0.23 on the base model and 0.37 to 0.38 on LFM3-VL-2B.
