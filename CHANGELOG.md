@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.5 (2026-10-29)
+
+Based on llama.cpp b11963, the release that Ollama 0.40.13 uses.
+
+- Support for Liquid AI LFM3 models.
+- Faster token generation on the GPU with the default sampling settings.
+- Faster generation when a repetition, presence or frequency penalty is set, on the CPU and on the GPU.
+- On the GPU, Q8A64 weights use the faster and smaller GPU format on more model families, such as the Qwen2 and XLM-RoBERTa embedding models.
+- The Ollama archives are now based on Ollama 0.40.13.
+- On the CPU, Q8A64 output is the same as in 1.4, checked bit for bit on the control models.
+
 ## 1.4 (2026-10-25)
 
 Based on llama.cpp b11845, the release that Ollama 0.40.11 uses.

@@ -53,7 +53,7 @@ Use the prompt prefixes your embedding model expects. EmbeddingGemma, for exampl
 
 ## Ollama
 
-The `velociq8-1.4-ollama-0.40.11-*` archives are a portable Ollama 0.40.11: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading.
+The `velociq8-1.5-ollama-0.40.13-*` archives are a portable Ollama 0.40.13: the official `ollama` executable, unmodified, with the VelociQ8 server in `lib/ollama/`. Nothing is installed and an Ollama already on the machine is not touched. This Ollama loads Q8A64 files and converts BF16, F16 and F32 models to Q8A64 while loading.
 
 ### GPU
 
@@ -68,15 +68,15 @@ On the GPU, VelociQ8 prepares the layers that go there while loading and runs th
 On Linux:
 
 ```sh
-tar xf velociq8-1.4-ollama-0.40.11-linux-arm64.tar.gz
-cd velociq8-1.4-ollama-0.40.11-linux-arm64
+tar xf velociq8-1.5-ollama-0.40.13-linux-arm64.tar.gz
+cd velociq8-1.5-ollama-0.40.13-linux-arm64
 ./bin/ollama serve
 ```
 
 On Windows, extract the zip and run, in PowerShell:
 
 ```powershell
-cd velociq8-1.4-ollama-0.40.11-windows-x64
+cd velociq8-1.5-ollama-0.40.13-windows-x64
 .\ollama.exe serve
 ```
 
